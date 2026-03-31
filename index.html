@@ -26,10 +26,19 @@
         .accent-gold { color: #eab308; }
         .bg-gold { background-color: #eab308; }
         
-        /* Observable Custom Styles */
-        .observablehq { color: #f8fafc !important; background: transparent !important; }
+        /* --- FIXED OBSERVABLE STYLES --- */
+        /* ทำให้ตัวเลขบนแกนกราฟเป็นสีขาวเพื่อให้เข้ากับ Theme มืด */
+        .observablehq svg text { fill: #f8fafc !important; font-family: 'Inter', sans-serif; }
+        
+        /* แก้ปัญหาตัวหนังสือใน Tooltip หาย: บังคับให้ข้อความใน Tooltip เป็นสีเข้มเสมอ */
+        .observablehq div[style*="background: white"], 
+        .observablehq div[style*="background-color: white"],
+        .observablehq .tooltip,
+        [class*="observablehq-tooltip"] { 
+            color: #1e293b !important; 
+        }
+
         .observablehq--inspect { display: none; }
-        /* Placeholder styling for charts */
         .viz-container { min-height: 500px; width: 100%; display: flex; justify-content: center; align-items: center; border-radius: 1rem; }
     </style>
 </head>
@@ -120,15 +129,12 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module">
         import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-        // Ensure this link is correct and the notebook is shared as "Public" or "Unlisted"
         import define from "https://api.observablehq.com/d/f8f3b538e8400abb.js?v=4";
 
         AOS.init({ once: true, duration: 800 });
 
         const runtime = new Runtime();
         runtime.module(define, name => {
-            // Check your Observable notebook for the exact cell names:
-            // These names MUST match the variable names in your notebook cells.
             if (name === "revenueTrendChart") return new Inspector(document.querySelector("#obs-revenue"));
             if (name === "studioComparisonChart") return new Inspector(document.querySelector("#obs-studio"));
         });
