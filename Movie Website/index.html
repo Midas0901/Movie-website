@@ -29,7 +29,8 @@
         /* Observable Custom Styles */
         .observablehq { color: #f8fafc !important; background: transparent !important; }
         .observablehq--inspect { display: none; }
-        .viz-container { min-height: 500px; width: 100%; display: flex; justify-content: center; align-items: center; }
+        /* Placeholder styling for charts */
+        .viz-container { min-height: 500px; width: 100%; display: flex; justify-content: center; align-items: center; border-radius: 1rem; }
     </style>
 </head>
 <body class="leading-relaxed">
@@ -41,7 +42,6 @@
                 <a href="#hero" class="hover:text-yellow-500 transition">Home</a>
                 <a href="#comparison" class="hover:text-yellow-500 transition">Market Share</a>
                 <a href="#deepdive" class="hover:text-yellow-500 transition">Analysis</a>
-                <a href="#reflection" class="hover:text-yellow-500 transition">Insights</a>
             </div>
         </div>
     </nav>
@@ -66,8 +66,7 @@
             <div data-aos="fade-right">
                 <h2 class="text-4xl font-bold mb-6 border-b-2 border-yellow-500 pb-2 inline-block">The Era of Studios</h2>
                 <p class="text-slate-400 text-lg mb-4">
-                    Since 2010, the film industry has shifted from individual star power to the dominance of major studio ecosystems. 
-                    Marvel's interconnected universe, DC's mythic storytelling, and Pixar's mastery have redefined how we consume media.
+                    Since 2010, the film industry has shifted from individual star power to the dominance of major studio ecosystems.
                 </p>
             </div>
             <div class="glass-card p-10 text-center" data-aos="zoom-in">
@@ -82,7 +81,9 @@
                 <p class="text-slate-400">Box office performance of the Big Three studios across the decade.</p>
             </div>
             <div class="glass-card p-8 rounded-3xl" data-aos="fade-up">
-                <div id="obs-revenue" class="viz-container"></div>
+                <div id="obs-revenue" class="viz-container">
+                    <p class="text-slate-500 italic">Loading financial data charts...</p>
+                </div>
             </div>
         </section>
 
@@ -94,7 +95,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="glass-card p-8 rounded-3xl" data-aos="fade-right">
                     <h3 class="accent-gold mb-4 font-bold text-xl uppercase">Studio Comparison</h3>
-                    <div id="obs-studio" class="viz-container" style="min-height: 400px;"></div>
+                    <div id="obs-studio" class="viz-container" style="min-height: 400px;">
+                         <p class="text-slate-500 italic">Loading performance metrics...</p>
+                    </div>
                 </div>
                 <div class="space-y-6" data-aos="fade-left">
                     <h3 class="text-3xl font-bold uppercase">Key Findings</h3>
@@ -110,21 +113,22 @@
 
     <footer class="bg-black py-20 px-6 text-center border-t border-slate-900">
         <div class="text-xl font-bold mb-4 italic text-white uppercase">STUDIO<span class="accent-gold">TITANS</span></div>
-        <p class="text-slate-500 text-sm mb-6">Designed for Milestone 2 Analysis | Phumnawat Phosawatmanee</p>
-        <p class="text-slate-600 text-xs tracking-widest uppercase">© 2026 Team High Tech | Data: Kaggle & IMDB</p>
+        <p class="text-slate-500 text-sm">Designed for Milestone 2 Analysis | Phumnawat Phosawatmanee</p>
+        <p class="text-slate-600 text-xs tracking-widest uppercase mt-4">© 2026 Team High Tech | Data: Kaggle & IMDB</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module">
         import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-        // API จากสมุดโน้ตของคุณ
+        // Ensure this link is correct and the notebook is shared as "Public" or "Unlisted"
         import define from "https://api.observablehq.com/d/f8f3b538e8400abb.js?v=4";
 
         AOS.init({ once: true, duration: 800 });
 
         const runtime = new Runtime();
         runtime.module(define, name => {
-            // ดึงกราฟตามชื่อ Cell ที่ระบุใน Observable
+            // Check your Observable notebook for the exact cell names:
+            // These names MUST match the variable names in your notebook cells.
             if (name === "revenueTrendChart") return new Inspector(document.querySelector("#obs-revenue"));
             if (name === "studioComparisonChart") return new Inspector(document.querySelector("#obs-studio"));
         });
