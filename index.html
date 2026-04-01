@@ -33,7 +33,7 @@
         }
         .accent-gold { color: #eab308; }
         .bg-gold { background-color: #eab308; }
-        
+
         .observablehq--inspect { display: none; }
         .viz-container { 
             min-height: 500px; 
@@ -44,36 +44,43 @@
             border-radius: 1rem; 
         }
 
-        /* ==================== TOOLTIP FIX - TEXT BLACK ONLY ==================== */
-
-        /* Keep tooltip box white */
+        /* ====================== FIX TOOLTIP สำหรับ GitHub Pages ====================== */
+        
+        /* กล่อง tooltip เป็นสีขาว */
         g[aria-label="tip"] rect {
             fill: #ffffff !important;
-            stroke: #e2e8f0 !important;
+            stroke: #cbd5e1 !important;
         }
 
-        /* Force ONLY the text inside tooltip to be black */
-        g[aria-label="tip"] text {
+        /* ตัวอักษรใน tooltip เป็นสีดำ (สำคัญมาก) */
+        g[aria-label="tip"] text,
+        g[aria-label="tip"] tspan {
             fill: #000000 !important;
+            color: #000000 !important;
             font-weight: 600 !important;
         }
 
-        /* Extra safety for any text elements inside tooltip */
-        g[aria-label="tip"] tspan,
-        g[aria-label="tip"] * text {
+        /* ป้องกันไม่ให้ตัวอักษรกลายเป็นสีขาว */
+        g[aria-label="tip"] * {
             fill: #000000 !important;
         }
 
-        /* Axis labels remain white (dark background) */
+        /* สำหรับกรณีที่ Observable ใช้ class อื่น */
+        .plot-tooltip text,
+        .observablehq-tooltip text,
+        div[role="tooltip"] text {
+            fill: #000000 !important;
+            color: #000000 !important;
+        }
+
+        /* ตัวอักษรแกนกราฟยังคงเป็นสีขาว */
         .observablehq svg text:not(g[aria-label="tip"] text) {
             fill: #f8fafc !important;
         }
 
-        /* Fallback rules */
-        .plot-tooltip text,
-        .observablehq-tooltip text {
-            fill: #000000 !important;
-            color: #000000 !important;
+        /* เพิ่มความแรงให้กับ tooltip */
+        g[aria-label="tip"] {
+            filter: none !important;
         }
     </style>
 </head>
