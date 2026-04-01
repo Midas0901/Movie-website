@@ -44,48 +44,51 @@
             border-radius: 1rem; 
         }
 
-        /* ====================== FIX TOOLTIP สำหรับ GitHub Pages ====================== */
+        /* ====================== STRONG TOOLTIP FIX FOR GITHUB PAGES ====================== */
         
-        /* กล่อง tooltip เป็นสีขาว */
-        g[aria-label="tip"] rect {
+        /* กล่อง tooltip เป็นสีขาวชัดเจน */
+        g[aria-label="tip"] rect,
+        g[aria-label^="tip"] rect {
             fill: #ffffff !important;
             stroke: #cbd5e1 !important;
+            stroke-width: 1px !important;
         }
 
-        /* ตัวอักษรใน tooltip เป็นสีดำ (สำคัญมาก) */
+        /* ตัวอักษรทุกตัวใน tooltip เป็นสีดำ (สำคัญที่สุด) */
         g[aria-label="tip"] text,
-        g[aria-label="tip"] tspan {
+        g[aria-label^="tip"] text,
+        g[aria-label="tip"] tspan,
+        g[aria-label^="tip"] tspan {
             fill: #000000 !important;
             color: #000000 !important;
             font-weight: 600 !important;
         }
 
-        /* ป้องกันไม่ให้ตัวอักษรกลายเป็นสีขาว */
-        g[aria-label="tip"] * {
-            fill: #000000 !important;
-        }
-
-        /* สำหรับกรณีที่ Observable ใช้ class อื่น */
-        .plot-tooltip text,
-        .observablehq-tooltip text,
-        div[role="tooltip"] text {
+        /* แรงสุด: บังคับทุกอย่างภายใน tooltip เป็นสีดำ */
+        g[aria-label="tip"] *,
+        g[aria-label^="tip"] * {
             fill: #000000 !important;
             color: #000000 !important;
         }
 
-        /* ตัวอักษรแกนกราฟยังคงเป็นสีขาว */
-        .observablehq svg text:not(g[aria-label="tip"] text) {
-            fill: #f8fafc !important;
+        /* Fallback สำหรับ class อื่นที่ Observable อาจใช้ */
+        .plot-tooltip text,
+        .observablehq-tooltip text,
+        [role="tooltip"] text,
+        div.tip text {
+            fill: #000000 !important;
+            color: #000000 !important;
         }
 
-        /* เพิ่มความแรงให้กับ tooltip */
-        g[aria-label="tip"] {
-            filter: none !important;
+        /* รักษาตัวอักษรแกนกราฟให้เป็นสีขาว */
+        .observablehq svg text:not(g[aria-label="tip"] text):not(g[aria-label^="tip"] text) {
+            fill: #f8fafc !important;
         }
     </style>
 </head>
 <body class="leading-relaxed">
 
+    <!-- ส่วนอื่นๆ เหมือนเดิม -->
     <nav class="fixed w-full z-50 bg-[#020617]/80 backdrop-blur-md border-b border-slate-800 p-5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="text-xl font-bold tracking-tighter italic text-white uppercase">STUDIO<span class="accent-gold text-2xl">TITANS</span></div>
