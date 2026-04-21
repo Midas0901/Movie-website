@@ -651,7 +651,8 @@ footer{
     </div>
     <div class="chart-box reveal">
       <div class="chart-label">FINANCIAL TRAJECTORY — AVERAGE REVENUE (BILLIONS USD)</div>
-      <div id="observablehq-revenue-main" class="obs-container"></div>
+      <!-- NEW CHART: REPLACED WITH OBSERVABLEHQ NOTEBOOK d4340af029b5a260 -->
+      <div id="observablehq-revenueTrendChart-bdfd753f" class="obs-container"></div>
       <p class="chart-explain">
         Superhero films achieved overwhelming dominance with multiple historic revenue peaks between 2017 and 2019. Adventure maintained steady performance, while Horror and Comedy showed greater volatility. The dramatic drop in 2020 reflects the global pandemic impact on theatrical releases, followed by a slow recovery. <strong>Hover over lines for exact annual revenue.</strong>
       </p>
@@ -784,12 +785,12 @@ footer{
 </footer>
 
 <!-- ── OBSERVABLEHQ SCRIPTS ───────────────────────────────────── -->
-<!-- Financial trajectory revenue chart (f8f3b538e8400abb) used in #trajectory -->
+<!-- NEW: Financial trajectory revenue chart (d4340af029b5a260) used in #trajectory -->
 <script type="module">
 import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-import defineRevenue from "https://api.observablehq.com/d/f8f3b538e8400abb.js?v=4";
-new Runtime().module(defineRevenue, name => {
-  if (name === "revenueTrendChart") return new Inspector(document.querySelector("#observablehq-revenue-main"));
+import define from "https://api.observablehq.com/d/d4340af029b5a260.js?v=4";
+new Runtime().module(define, name => {
+  if (name === "revenueTrendChart") return new Inspector(document.querySelector("#observablehq-revenueTrendChart-bdfd753f"));
 });
 </script>
 
@@ -870,7 +871,7 @@ function drawParticles(){
     if(p.y<0)p.y=H; if(p.y>H)p.y=0;
     
     ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(245,197,24,${0.6*(p.o)})`;ctx.fill();
+    ctx.fillStyle=`rgba(245,197,24,${p.o})`;ctx.fill();
     
     pts.forEach(q=>{
       const d=Math.sqrt(Math.pow(p.x-q.x,2)+Math.pow(p.y-q.y,2));
