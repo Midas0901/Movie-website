@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>HighTech — Cinematic Market Intelligence 2010–2025</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@5/dist/inspector.css">
 <style>
 /* ─── RESET & ROOT ─────────────────────────────────────────────── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -257,36 +258,75 @@ section{position:relative}
 .gi-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:9rem;filter:blur(2px);opacity:.15;transition:opacity .4s,filter .4s}
 .genre-item:hover .gi-bg{opacity:.28;filter:blur(0)}
 
-/* ─── CHART STYLES ──────────────────────────────────────────────── */
+/* ─── CHART STYLES (ObservableHQ overrides) ─────────────────────── */
 .chart-box{
   background:var(--ink2);border:1px solid rgba(240,244,255,.08);
   border-radius:20px;padding:48px 40px;overflow:hidden;position:relative;
+  transition:all 0.3s ease;
 }
 .chart-box::after{
   content:'';position:absolute;inset:0;border-radius:20px;
   background:linear-gradient(135deg,rgba(245,197,24,.03),transparent 60%);
   pointer-events:none;
 }
-.image-graph{
-  width:100%;max-height:820px;object-fit:contain;border-radius:16px;
-  box-shadow:0 30px 70px rgba(0,0,0,0.75);
-  background:#0a0f1c;
-  border:1px solid rgba(245,197,24,.15);
-  transition:transform .5s ease, box-shadow .5s ease;
-}
-.chart-box:hover .image-graph{
-  transform:scale(1.015);
-  box-shadow:0 40px 90px rgba(245,197,24,.3);
-}
 .chart-label{
   font-size:.78rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;font-weight:700;
 }
 .chart-explain{font-size:0.92rem;line-height:1.75;color:var(--smoke);margin-top:32px;max-width:860px}
 
+/* Observable containers - wider and bigger for hover interactions */
+.obs-container {
+  width: 100%;
+  min-height: 580px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+.obs-container svg,
+.obs-container canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.observablehq--inspect {
+  display: none;
+}
+.observablehq svg text:not(g[aria-label="tip"] text) {
+  fill: #f8fafc !important;
+}
+/* Ensure tooltips (hover interactions) are visible and large */
+g[aria-label="tip"] rect,
+g[aria-label^="tip"] rect {
+  fill: #ffffff !important;
+  stroke: #eab308 !important;
+  stroke-width: 2px !important;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+g[aria-label="tip"] text,
+g[aria-label^="tip"] text,
+g[aria-label="tip"] tspan {
+  fill: #000000 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  font-family: 'DM Sans', sans-serif !important;
+}
+/* Make chart elements larger for better hover */
+.observablehq svg circle {
+  transition: r 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+}
+.observablehq svg circle:hover {
+  filter: drop-shadow(0 0 8px var(--gold));
+  r: 12 !important;
+}
+
 /* ─── TRENDS ─────────────────────────────────────────────────────── */
 #trends{padding:160px 60px;background:var(--ink)}
-.trends-inner{max-width:1280px;margin:0 auto}
-.trends-top{display:grid;grid-template-columns:5fr 7fr;gap:80px;margin-bottom:80px;align-items:center}
+.trends-inner{max-width:1400px;margin:0 auto}
+.trends-top{display:grid;grid-template-columns:4fr 8fr;gap:80px;margin-bottom:80px;align-items:center}
 .trend-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .trend-card{
   padding:36px 28px;background:var(--ink2);
@@ -345,7 +385,7 @@ section{position:relative}
 
 /* ─── DEEP DIVE ──────────────────────────────────────────────────── */
 #deepdive{padding:140px 60px;background:var(--ink3)}
-.deep-inner{max-width:1200px;margin:0 auto}
+.deep-inner{max-width:1400px;margin:0 auto}
 .deep-grid{display:grid;grid-template-columns:7fr 5fr;gap:24px}
 .deep-chart{background:var(--ink2);border:1px solid rgba(240,244,255,.07);border-radius:20px;padding:48px}
 .deep-insights{display:flex;flex-direction:column;gap:20px}
@@ -567,7 +607,7 @@ footer{
   </div>
 </div>
 
-<!-- ── TRENDS ─────────────────────────────────────────────────── -->
+<!-- ── TRENDS (NO GRAPHS, ONLY TEXT AND INSIGHT CARDS) ───────── -->
 <section id="trends">
   <div class="trends-inner">
     <div class="trends-top">
@@ -575,15 +615,6 @@ footer{
         <span class="section-label">Section 02</span>
         <h2 class="section-title" style="margin-bottom:28px">DATA<br>TRENDS</h2>
         <p class="section-sub">A summary of the biggest changes in genre popularity, studio dominance, and audience behavior from 2010 to 2025.</p>
-      </div>
-      
-      <!-- BIGGER CHART CONTAINER -->
-      <div class="chart-box reveal-right" style="padding:80px 60px; min-height: 720px;">
-        <div class="chart-label">TOP 5 POPULAR GENRES REVENUE (2010–2024)</div>
-        <img src="1.png" class="image-graph" alt="Top 5 Popular Genres Revenue Chart" style="max-height: 1000px;">
-        <p class="chart-explain">
-          This visualization highlights the revenue performance of the top 5 movie genres over 15 years. Superhero films show the most dramatic growth and peaks, especially during the MCU golden era, while other genres like Adventure and Comedy remained relatively stable until the 2020 disruption.
-        </p>
       </div>
     </div>
     <div class="trend-cards">
@@ -620,9 +651,9 @@ footer{
     </div>
     <div class="chart-box reveal">
       <div class="chart-label">FINANCIAL TRAJECTORY — AVERAGE REVENUE (BILLIONS USD)</div>
-      <img src="4.png" class="image-graph" alt="Financial Trajectory">
+      <div id="observablehq-revenue-main" class="obs-container"></div>
       <p class="chart-explain">
-        Superhero films achieved overwhelming dominance with multiple historic revenue peaks between 2017 and 2019. Adventure maintained steady performance, while Horror and Comedy showed greater volatility. The dramatic drop in 2020 reflects the global pandemic impact on theatrical releases, followed by a slow recovery.
+        Superhero films achieved overwhelming dominance with multiple historic revenue peaks between 2017 and 2019. Adventure maintained steady performance, while Horror and Comedy showed greater volatility. The dramatic drop in 2020 reflects the global pandemic impact on theatrical releases, followed by a slow recovery. <strong>Hover over lines for exact annual revenue.</strong>
       </p>
     </div>
   </div>
@@ -661,17 +692,21 @@ footer{
         </div>
       </div>
       <div class="studio-main">
-        <div class="chart-label">STUDIO POWER RANKING — AVERAGE RATING TRENDS (2010–2025)</div>
-        <img src="2.png" class="image-graph" alt="Studio Performance">
+        <!-- BAR CHART (added above original) -->
+        <div class="chart-label">TOTAL BOX OFFICE BY STUDIO (BILLIONS USD)</div>
+        <div id="observablehq-chart-c633db8e" class="obs-container" style="min-height: 400px;"></div>
+        <!-- ORIGINAL INTERACTIVE STUDIO CHART -->
+        <div class="chart-label" style="margin-top: 48px;">STUDIO POWER RANKING — AVERAGE RATING TRENDS (2010–2025)</div>
+        <div id="observablehq-studio-main" class="obs-container"></div>
         <p class="chart-explain">
-          Marvel maintains strong and consistent ratings with high box office power. DC shows more volatility but occasional high peaks. Pixar delivers the most stable critical acclaim over the entire period, reflecting its reputation for quality storytelling.
+          Marvel maintains strong and consistent ratings with high box office power. DC shows more volatility but occasional high peaks. Pixar delivers the most stable critical acclaim over the entire period, reflecting its reputation for quality storytelling. <strong>Hover over any data point for movie details.</strong>
         </p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── DEEP DIVE ──────────────────────────────────────────────── -->
+<!-- ── DEEP DIVE (CRITICAL RECEPTION) ─────────────────────────── -->
 <section id="deepdive">
   <div class="deep-inner">
     <div style="margin-bottom:60px" class="reveal">
@@ -682,9 +717,9 @@ footer{
     <div class="deep-grid">
       <div class="deep-chart reveal-left">
         <div class="chart-label">RATINGS VS REVENUE — MARVEL, DC & PIXAR (Bubble size = Popularity / Vote Count)</div>
-        <img src="3.png" class="image-graph" alt="Ratings vs Revenue">
+        <div id="observablehq-rating_chart-a8abc893" class="obs-container"></div>
         <p class="chart-explain">
-          Marvel films cluster in the high-revenue, high-rating quadrant with large bubbles indicating massive popularity. Pixar excels in ratings with solid revenue. DC shows greater variance but some standout high-performing titles. Overall, higher ratings tend to correlate with stronger box office performance.
+          Marvel films cluster in the high-revenue, high-rating quadrant with large bubbles indicating massive popularity. Pixar excels in ratings with solid revenue. DC shows greater variance but some standout high-performing titles. Overall, higher ratings tend to correlate with stronger box office performance. <strong>Hover over each bubble to see the movie title, rating, revenue, and vote count.</strong>
         </p>
       </div>
       <div class="deep-insights">
@@ -748,7 +783,44 @@ footer{
   </div>
 </footer>
 
-<!-- ── SCRIPTS ────────────────────────────────────────────────── -->
+<!-- ── OBSERVABLEHQ SCRIPTS ───────────────────────────────────── -->
+<!-- Financial trajectory revenue chart (f8f3b538e8400abb) used in #trajectory -->
+<script type="module">
+import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+import defineRevenue from "https://api.observablehq.com/d/f8f3b538e8400abb.js?v=4";
+new Runtime().module(defineRevenue, name => {
+  if (name === "revenueTrendChart") return new Inspector(document.querySelector("#observablehq-revenue-main"));
+});
+</script>
+
+<!-- Studio bar chart (989e2ec9834905d9) -->
+<script type="module">
+import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+import defineBar from "https://api.observablehq.com/d/989e2ec9834905d9@35.js?v=4&api_key=b3fc5d628126abd55632e50dd8579d483bfed2a0";
+new Runtime().module(defineBar, name => {
+  if (name === "chart") return new Inspector(document.querySelector("#observablehq-chart-c633db8e"));
+});
+</script>
+
+<!-- Original interactive studio chart (f8f3b538e8400abb - rating_chart) -->
+<script type="module">
+import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+import defineStudio from "https://api.observablehq.com/d/f8f3b538e8400abb.js?v=4";
+new Runtime().module(defineStudio, name => {
+  if (name === "rating_chart") return new Inspector(document.querySelector("#observablehq-studio-main"));
+});
+</script>
+
+<!-- Critical reception bubble chart (ada072e8ccda69d8) -->
+<script type="module">
+import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+import defineCritical from "https://api.observablehq.com/d/ada072e8ccda69d8@108.js?v=4";
+new Runtime().module(defineCritical, name => {
+  if (name === "rating_chart") return new Inspector(document.querySelector("#observablehq-rating_chart-a8abc893"));
+});
+</script>
+
+<!-- ── INTERACTIVE SCRIPTS (cursor, particles, etc) ───────────────── -->
 <script>
 /* ── CURSOR ──────────────────────────────────────────────── */
 const cursor = document.getElementById('cursor');
@@ -798,7 +870,7 @@ function drawParticles(){
     if(p.y<0)p.y=H; if(p.y>H)p.y=0;
     
     ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(245,197,24,${0.4*(p.o)})`;ctx.fill();
+    ctx.fillStyle=`rgba(245,197,24,${0.6*(p.o)})`;ctx.fill();
     
     pts.forEach(q=>{
       const d=Math.sqrt(Math.pow(p.x-q.x,2)+Math.pow(p.y-q.y,2));
