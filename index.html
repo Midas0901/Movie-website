@@ -16,7 +16,7 @@
   --ff-body:'DM Sans',sans-serif;--ff-italic:'Playfair Display',serif;
   scroll-behavior:smooth;
 }
-html{font-size:16px}
+html{font-size:20px}
 body{
   background:var(--ink);color:var(--white);
   font-family:var(--ff-body);overflow-x:hidden;
@@ -651,7 +651,6 @@ footer{
     </div>
     <div class="chart-box reveal">
       <div class="chart-label">FINANCIAL TRAJECTORY — AVERAGE REVENUE (BILLIONS USD)</div>
-      <!-- NEW CHART: REPLACED WITH OBSERVABLEHQ NOTEBOOK d4340af029b5a260 -->
       <div id="observablehq-revenueTrendChart-bdfd753f" class="obs-container"></div>
       <p class="chart-explain">
         Superhero films achieved overwhelming dominance with multiple historic revenue peaks between 2017 and 2019. Adventure maintained steady performance, while Horror and Comedy showed greater volatility. The dramatic drop in 2020 reflects the global pandemic impact on theatrical releases, followed by a slow recovery. <strong>Hover over lines for exact annual revenue.</strong>
@@ -660,7 +659,7 @@ footer{
   </div>
 </section>
 
-<!-- ── STUDIOS ────────────────────────────────────────────────── -->
+<!-- ── STUDIOS (UPDATED WITH NEW CHARTS) ─────────────────────── -->
 <section id="studios">
   <div class="studios-inner">
     <div style="text-align:center;margin-bottom:64px" class="reveal">
@@ -693,12 +692,13 @@ footer{
         </div>
       </div>
       <div class="studio-main">
-        <!-- BAR CHART (added above original) -->
-        <div class="chart-label">TOTAL BOX OFFICE BY STUDIO (BILLIONS USD)</div>
-        <div id="observablehq-chart-c633db8e" class="obs-container" style="min-height: 400px;"></div>
-        <!-- ORIGINAL INTERACTIVE STUDIO CHART -->
+        <!-- NEW CUMULATIVE PROFIT COMPARISON (bar chart) -->
+        <div class="chart-label">CUMULATIVE PROFIT COMPARISON (2010-2025)</div>
+        <div id="observablehq-chart-03225866" class="obs-container" style="min-height: 400px;"></div>
+
+        <!-- NEW STUDIO POWER RANKING (original interactive chart replaced) -->
         <div class="chart-label" style="margin-top: 48px;">STUDIO POWER RANKING — AVERAGE RATING TRENDS (2010–2025)</div>
-        <div id="observablehq-studio-main" class="obs-container"></div>
+        <div id="observablehq-rating_chart-c3e50378" class="obs-container"></div>
         <p class="chart-explain">
           Marvel maintains strong and consistent ratings with high box office power. DC shows more volatility but occasional high peaks. Pixar delivers the most stable critical acclaim over the entire period, reflecting its reputation for quality storytelling. <strong>Hover over any data point for movie details.</strong>
         </p>
@@ -707,7 +707,7 @@ footer{
   </div>
 </section>
 
-<!-- ── DEEP DIVE (CRITICAL RECEPTION) ─────────────────────────── -->
+<!-- ── DEEP DIVE (CRITICAL RECEPTION - UPDATED) ───────────────── -->
 <section id="deepdive">
   <div class="deep-inner">
     <div style="margin-bottom:60px" class="reveal">
@@ -718,7 +718,8 @@ footer{
     <div class="deep-grid">
       <div class="deep-chart reveal-left">
         <div class="chart-label">RATINGS VS REVENUE — MARVEL, DC & PIXAR (Bubble size = Popularity / Vote Count)</div>
-        <div id="observablehq-rating_chart-a8abc893" class="obs-container"></div>
+        <!-- NEW CRITICAL RECEPTION CHART -->
+        <div id="observablehq-ratingsstudio-8ebf34cb" class="obs-container"></div>
         <p class="chart-explain">
           Marvel films cluster in the high-revenue, high-rating quadrant with large bubbles indicating massive popularity. Pixar excels in ratings with solid revenue. DC shows greater variance but some standout high-performing titles. Overall, higher ratings tend to correlate with stronger box office performance. <strong>Hover over each bubble to see the movie title, rating, revenue, and vote count.</strong>
         </p>
@@ -784,8 +785,8 @@ footer{
   </div>
 </footer>
 
-<!-- ── OBSERVABLEHQ SCRIPTS ───────────────────────────────────── -->
-<!-- NEW: Financial trajectory revenue chart (d4340af029b5a260) used in #trajectory -->
+<!-- ── OBSERVABLEHQ SCRIPTS (UPDATED) ─────────────────────────── -->
+<!-- Financial trajectory revenue chart (unchanged) -->
 <script type="module">
 import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
 import define from "https://api.observablehq.com/d/d4340af029b5a260.js?v=4";
@@ -794,30 +795,30 @@ new Runtime().module(define, name => {
 });
 </script>
 
-<!-- Studio bar chart (989e2ec9834905d9) -->
+<!-- Cumulative Profit Comparison (NEW bar chart) -->
 <script type="module">
 import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-import defineBar from "https://api.observablehq.com/d/989e2ec9834905d9@35.js?v=4&api_key=b3fc5d628126abd55632e50dd8579d483bfed2a0";
+import defineBar from "https://api.observablehq.com/d/989e2ec9834905d9@42.js?v=4";
 new Runtime().module(defineBar, name => {
-  if (name === "chart") return new Inspector(document.querySelector("#observablehq-chart-c633db8e"));
+  if (name === "chart") return new Inspector(document.querySelector("#observablehq-chart-03225866"));
 });
 </script>
 
-<!-- Original interactive studio chart (f8f3b538e8400abb - rating_chart) -->
+<!-- Studio Power Ranking (NEW interactive chart) -->
 <script type="module">
 import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-import defineStudio from "https://api.observablehq.com/d/f8f3b538e8400abb.js?v=4";
-new Runtime().module(defineStudio, name => {
-  if (name === "rating_chart") return new Inspector(document.querySelector("#observablehq-studio-main"));
+import definePowerRank from "https://api.observablehq.com/d/d4340af029b5a260@233.js?v=4";
+new Runtime().module(definePowerRank, name => {
+  if (name === "rating_chart") return new Inspector(document.querySelector("#observablehq-rating_chart-c3e50378"));
 });
 </script>
 
-<!-- Critical reception bubble chart (ada072e8ccda69d8) -->
+<!-- Critical Reception (NEW bubble chart) -->
 <script type="module">
 import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
-import defineCritical from "https://api.observablehq.com/d/ada072e8ccda69d8@108.js?v=4";
+import defineCritical from "https://api.observablehq.com/d/7dce7ee40b4776e4@117.js?v=4";
 new Runtime().module(defineCritical, name => {
-  if (name === "rating_chart") return new Inspector(document.querySelector("#observablehq-rating_chart-a8abc893"));
+  if (name === "ratingsstudio") return new Inspector(document.querySelector("#observablehq-ratingsstudio-8ebf34cb"));
 });
 </script>
 
